@@ -53,5 +53,9 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Getting the data on the client via the magic export let data variable in Svelte
 - Iterating over the data with the {#each} keyword
 
+Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/commit/d6cb932328d0755b2d9574792e81aa7cdff34757)
+
+[/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
+[/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
 
 
