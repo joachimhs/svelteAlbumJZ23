@@ -58,4 +58,13 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 - [/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
 - [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
 
+## Step 3: Move Slideshow to its own Slideshow-componennt
 
+### Topics: 
+
+- Using lib/components, and the $lib import statement
+- Structure of a Svelte component
+- Using component and passing in component parameters via export let paramName
+- Using onMount in component to initialize component on DOM insert
+
+Changes made in commit: 
