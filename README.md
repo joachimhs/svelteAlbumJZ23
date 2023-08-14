@@ -29,3 +29,21 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+# Tutorial
+
+## Step 1: Show slideshow of front-images with CSS transitions: 
+
+### Topics:
+
+- Script, HTML and Style areas of +page.svelte
+- Run code when browser loads: onMount
+- Add page-wide variables and page-wide functions
+
+Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/commit/0169626072b0d148e6dba679ba15c1ad06b5fb9a)
+
+[/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/0169626072b0d148e6dba679ba15c1ad06b5fb9a/src/routes/%2Bpage.svelte)
+
+
+
+
