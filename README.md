@@ -67,4 +67,7 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Using component and passing in component parameters via export let paramName
 - Using onMount in component to initialize component on DOM insert
 
-Changes made in commit: 
+Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/commit/a59cdddae242a85987dd6c8b7151d665325f79ad)
+
+- [/lib/components/Slideshow.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/lib/components/Slideshow.svelte)
+- [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/routes/%2Bpage.svelte)
