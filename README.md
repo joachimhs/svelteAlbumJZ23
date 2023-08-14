@@ -45,5 +45,13 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/0169626072b0d148e6dba679ba15c1ad06b5fb9a/src/routes/%2Bpage.svelte)
 
 
+## Step 2: Pass data from Svelte Server to client
+
+### Topics: 
+
+- Using +page.js to create JSON data via the load-function
+- Getting the data on the client via the magic export let data variable in Svelte
+- Iterating over the data with the {#each} keyword
+
 
 

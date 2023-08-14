@@ -2,6 +2,8 @@
 
     import {onMount} from "svelte";
 
+    export let data;
+
     let intervalId = null;
     let intervalMs = 10000;
     let photoLength = 0;
@@ -46,10 +48,9 @@
 </script>
 
 <div id="cf2">
-    <div class="photo transparent" style="background-image: url('/images/background1.jpg')"/>
-    <div class="photo transparent" style="background-image: url('/images/IMGP4117.jpg')"/>
-    <div class="photo transparent" style="background-image: url('/images/IMGP4642.jpg')"/>
-    <div class="photo transparent" style="background-image: url('/images/IMGP6801.jpg')"/>
+    {#each data.photos as photo}
+        <div class="photo transparent" style="background-image: url('/images/{photo.id}')"/>
+    {/each}
 </div>
 
 <style>
