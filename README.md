@@ -42,7 +42,7 @@ You can preview the production build with `npm run preview`.
 
 Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/commit/0169626072b0d148e6dba679ba15c1ad06b5fb9a)
 
-[/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/0169626072b0d148e6dba679ba15c1ad06b5fb9a/src/routes/%2Bpage.svelte)
+- [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/0169626072b0d148e6dba679ba15c1ad06b5fb9a/src/routes/%2Bpage.svelte)
 
 
 ## Step 2: Pass data from Svelte Server to client
@@ -55,7 +55,7 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/commit/d6cb932328d0755b2d9574792e81aa7cdff34757)
 
-[/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
-[/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
+- [/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
+- [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
 
 
