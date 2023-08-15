@@ -663,3 +663,39 @@ title: 'Sommerfugl'
 Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/commit/ce023b7c5f2dec8761ad6f93b9fa9bb676cbef0a)
 
 ### Code Code Diff for Step 6: 
+
+<details>
+    <summary>Rename /src/routes/+page.js to /src/routes/+layout.js</summary>
+
+- rename from src/routes/+page.js
+- rename to src/routes/+layout.js
+</details>
+
+<details>
+    <summary>/src/routes/album/[albumid]/+page.js</summary>
+
+```diff
++export async function load({parent, params}) {
++    const data = await parent();
++    let album = await data.albums.find((album) => album.caption === params.albumid);
++
++    return { album: album};
++}
+```
+</details>
+
+<details>
+    <summary>/src/routes/album/[albumid]/+page.svelte</summary>
+
+```diff
++<script>
++    import {page} from "$app/stores";
++
++    export let data;
++</script>
++
++<h1>Velkommen til {$page.params.albumid} albumet!</h1>
++
++<div>{data.album.caption}</div>
+```
+</details>
