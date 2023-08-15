@@ -71,8 +71,8 @@ Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 - [/lib/components/Slideshow.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/lib/components/Slideshow.svelte)
 - [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/routes/%2Bpage.svelte)
-- 
-- ## Step 4: Add photo album grid-area
+
+## Step 4: Add photo album grid-area
 
 ### Topics: 
 
