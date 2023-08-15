@@ -49,13 +49,13 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 ### Topics: 
 
-- Using +page.js to create JSON data via the load-function
+- Using +layout.js to create JSON data via the load-function
 - Getting the data on the client via the magic export let data variable in Svelte
 - Iterating over the data with the {#each} keyword
 
 Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/commit/d6cb932328d0755b2d9574792e81aa7cdff34757)
 
-- [/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
+- [/src/routes/+layout.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
 - [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
 
 ## Step 3: Move Slideshow to its own Slideshow-component
@@ -514,7 +514,7 @@ Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/c
 </details>
 
 <details>
-    <summary>/src/routes/+page.js</summary>
+    <summary>/src/routes/+layout.js</summary>
 
 ```diff
 export function load({ params }) {
@@ -651,3 +651,15 @@ title: 'Sommerfugl'
  </style>
  ```
 </details>
+
+## Step 6: Create album route and fetch data from parent
+
+### Topics:
+
+- Introduction to +layout.js to fetch data also available to children routes
+- Creating a static route (album) and a dynamic route ([albumid])
+- Fetching relevant data from the parent +layout.js file using load() with both {parent and params}
+
+Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/commit/ce023b7c5f2dec8761ad6f93b9fa9bb676cbef0a)
+
+### Code Code Diff for Step 6: 
