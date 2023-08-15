@@ -58,7 +58,7 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 - [/src/routes/+page.js](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.js)
 - [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/d6cb932328d0755b2d9574792e81aa7cdff34757/src/routes/%2Bpage.svelte)
 
-## Step 3: Move Slideshow to its own Slideshow-componennt
+## Step 3: Move Slideshow to its own Slideshow-component
 
 ### Topics: 
 
@@ -388,3 +388,13 @@ Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/c
  </style>
 ```
 </details>
+
+## Step 5: Create album-index component
+
+### Topics: 
+
+- Moving album index to its own component: PhotoAlbumIndex
+- Also returning album JSON from the SvelteKit server via load()
+- Adding checks to support non-iterable albums in PhotoAlbumIndex component
+- Adding {:else} fallback to the album iterator
+
