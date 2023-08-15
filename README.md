@@ -69,13 +69,10 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/commit/a59cdddae242a85987dd6c8b7151d665325f79ad)
 
-- [/lib/components/Slideshow.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/lib/components/Slideshow.svelte)
-- [/src/routes/+page.svelte](https://github.com/joachimhs/svelteAlbumJZ23/blob/a59cdddae242a85987dd6c8b7151d665325f79ad/src/routes/%2Bpage.svelte)
+### Code Diff for Step 3: a59cddd
 
 <details>
-    <summary>Code Diff for Step 3: a59cddd</summary>
-
-#### /lib/components/Slideshow.svelte:
+    <summary>/lib/components/Slideshow.svelte:</summary>
 
 ```diff
 @@ -0,0 +1,79 @@
@@ -159,8 +156,10 @@ Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/c
 +    }
 +</style>
 ```
+</details>
 
-#### /src/routes/+page.svelte
+<details>
+    <summary>/src/routes/+page.svelte</summary>
 
 ````diff
  <script>
@@ -261,10 +260,11 @@ Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/commit/86976bba7c58a972a1fba8326c615ca26475f67c)
 
-<details>
-    <summary>Code Diff for Step 4: 86976bb</summary>
+### Code Code Diff for Step 4: 86976bb
 
-#### app.css:
+<details>
+    <summary>/app.css</summary>
+
 ```diff
 + body {  
 +     font-family: sans-serif;
@@ -276,8 +276,11 @@ Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/c
 +     text-decoration: none;
 + }
 ```
+</details>
 
-#### /src/routes/+page.svelte:
+<details>
+    <summary>/src/routes/+page.svelte:</summary>
+
 ```diff
 <script>
 +     import '../app.css';
