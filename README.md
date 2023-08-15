@@ -398,3 +398,256 @@ Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Adding checks to support non-iterable albums in PhotoAlbumIndex component
 - Adding {:else} fallback to the album iterator
 
+Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/commit/ce023b7c5f2dec8761ad6f93b9fa9bb676cbef0a)
+
+### Code Code Diff for Step 4: ce023b7
+
+<details>
+    <summary>/src/lib/components/PhotoAlbumIndex.svelte</summary>
+
+```diff
++<script>
++    import {onMount} from "svelte";
++
++    export let albums;
++
++    onMount(() => {
++        if (!albums) {
++            albums = [];
++        }
++    });
+     +</script>
++
++<div class="photo-albums-area">
++    <h1>Fotoalbum</h1>
++
++    {#if albums}
++        <div class="photo-album-grid">
++            {#each albums as album}
++                <a href="/album/{album.id}">
++                    <div class="grid-item">
++                        <img class="grid-item-photo" src="/images/{album.image}">
++                        <div class="grid-item-caption">
++                            <h1>{album.caption}</h1>
++                        </div>
++                    </div>
++                </a>
++                {:else}
++                <div>Ingen fotoalbum er lagt til</div>
++            {/each}
++        </div>
++    {/if}
+     +</div>
++
++<style>
++    .photo-albums-area h1 {
++        text-align: center;
++        margin-top: 40px;
++        margin-bottom: 40px;
++        font-weight: 100;
++        font-size: 4rem;
++    }
++
++    .photo-album-grid {
++        display: grid;
++        grid-template-columns: repeat(3, 30vw);
++        grid-gap: 3%;
++        margin-left: 1%;
++    }
++
++    .grid-item {
++        width: 30vw;
++        height: 20vh;
++        transition: opacity 0.3s ease-in-out, transform 0.5s;
++        overflow: hidden;
++    }
++
++    .grid-item img {
++        width: 30vw;
++        height: 20vh;
++        object-fit: cover;
++        transition: opacity 0.3s ease-in-out, transform 2s;
++    }
++
++    .grid-item:hover img {
++        transform: scale(1.7);
++    }
++
++    .grid-item-caption {
++        position: relative;
++        top: -120px;
++        opacity: 0;
++    }
++
++    .grid-item:hover {
++        transform: scale(1.15);
++    }
++
++    .in-album .grid-item-caption {
++        top: -100px;
++    }
++
++    .in-album .grid-item:hover {
++        transform: scale(1);
++    }
++
++    .in-album .grid-item-caption h1 {
++        font-size: 1em;
++    }
++
++    .grid-item-caption {
++        animation: ease-in-out 1s;
++    }
++
++    .grid-item:hover .grid-item-caption {
++        opacity: 1;
++        background: rgba(0,0,0,0.5);
++    }
++
++    .grid-item-caption h1 {
++        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
++        font-size: 3em;
++        color: white;
++        font-weight: 100;
++    }
+```
+</details>
+
+<details>
+    <summary>/src/routes/+page.js</summary>
+
+```diff
+export function load({ params }) {
+id: 'IMGP6801.jpg',
+title: 'Sommerfugl'
+}
++        ],
++        albums: [
++            {
++                id: 'makro',
++                image: 'IMGP4117.jpg',
++                caption: 'makro'
++            },
++            {
++                id: 'norge2020',
++                image: 'background1.jpg',
++                caption: 'Norge 2020'
++            }
+         ]
+  };
+}
+```
+</details>
+
+<details>
+    <summary>/src/routes/+page.svelte</summary>
+
+```diff
+ <script>
+     import '../app.css';
+     import Slideshow from "$lib/components/Slideshow.svelte";
++    import PhotoAlbumIndex from "$lib/components/PhotoAlbumIndex.svelte";
+ 
+     export let data;
+ </script>
+ 
+ <Slideshow photos={data.photos}></Slideshow>
+-
+-<div class="photo-albums-area">
+-    <h1>Fotoalbum</h1>
+-
+-    <div class="photo-album-grid">
+-        <a href="/album/makro">
+-            <div class="grid-item">
+-                <img class="grid-item-photo" src="/images/IMGP4117.jpg">
+-                <div class="grid-item-caption">
+-                    <h1>makro</h1>
+-                </div>
+-            </div>
+-        </a>
+-        <a href="/album/norge2020">
+-            <div class="grid-item">
+-                <img class="grid-item-photo" src="/images/background1.jpg">
+-                <div class="grid-item-caption">
+-                    <h1>Norge 2020</h1>
+-                </div>
+-            </div>
+-        </a>
+-    </div>
+-</div>
++<PhotoAlbumIndex albums={data.albums}></PhotoAlbumIndex>
+ 
+ <style>
+-    .photo-albums-area h1 {
+-        text-align: center;
+-        margin-top: 40px;
+-        margin-bottom: 40px;
+-        font-weight: 100;
+-        font-size: 4rem;
+-    }
+-
+-    .photo-album-grid {
+-        display: grid;
+-        grid-template-columns: repeat(3, 30vw);
+-        grid-gap: 3%;
+-        margin-left: 1%;
+-    }
+-
+-    .grid-item {
+-        width: 30vw;
+-        height: 20vh;
+-        transition: opacity 0.3s ease-in-out, transform 0.5s;
+-        overflow: hidden;
+-    }
+-
+-    .grid-item img {
+-        width: 30vw;
+-        height: 20vh;
+-        object-fit: cover;
+-        transition: opacity 0.3s ease-in-out, transform 2s;
+-    }
+-
+-    .grid-item:hover img {
+-        transform: scale(1.7);
+-    }
+-
+-    .grid-item-caption {
+-        position: relative;
+-        top: -120px;
+-        opacity: 0;
+-    }
+-
+-    .grid-item:hover {
+-        transform: scale(1.15);
+-    }
+-
+-    .in-album .grid-item-caption {
+-        top: -100px;
+-    }
+-
+-    .in-album .grid-item:hover {
+-        transform: scale(1);
+-    }
+-
+-    .in-album .grid-item-caption h1 {
+-        font-size: 1em;
+-    }
+-
+-    .grid-item-caption {
+-        animation: ease-in-out 1s;
+-    }
+-
+-    .grid-item:hover .grid-item-caption {
+-        opacity: 1;
+-        background: rgba(0,0,0,0.5);
+-    }
+ 
+-    .grid-item-caption h1 {
+-        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+-        font-size: 3em;
+-        color: white;
+-        font-weight: 100;
+-    }
+ </style>
+ ```
+</details>
