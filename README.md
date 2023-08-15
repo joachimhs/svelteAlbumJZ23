@@ -660,7 +660,7 @@ title: 'Sommerfugl'
 - Creating a static route (album) and a dynamic route ([albumid])
 - Fetching relevant data from the parent +layout.js file using load() with both {parent and params}
 
-Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/commit/ce023b7c5f2dec8761ad6f93b9fa9bb676cbef0a)
+Changes made in commit: [cca5f89](https://github.com/joachimhs/svelteAlbumJZ23/commit/cca5f89990f98145b9938c17fc9afab9cca0f23b)
 
 ### Code Code Diff for Step 6: 
 
