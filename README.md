@@ -841,3 +841,18 @@ Changes made in commit:
 +</style>
 ```
 </details>
+
+## Step 8: Adding the photo route and refactoring
+
+### Topics:
+
+- Adding +layout.svelte to [albumid] dynamic route
+- Moving code for thumbnails into +layout.svelte
+- Moving server-fetch from +page.js to +layout.js in [albumid] dynamic route
+- Adding [photoid] dynamic route for each photo
+- Redirecting user from album to photo if no photo is present in URL/params
+- Finding the correct photo from the photos array in [photoid]/+page.js
+
+Changes made in commit:
+
+### Code Code Diff for Step 7: []()
