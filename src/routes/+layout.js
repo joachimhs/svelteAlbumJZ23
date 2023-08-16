@@ -22,12 +22,14 @@ export function load({ params }) {
             {
                 id: 'makro',
                 image: 'IMGP4117.jpg',
-                caption: 'makro'
+                caption: 'makro',
+                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg']
             },
             {
                 id: 'norge2020',
                 image: 'background1.jpg',
-                caption: 'Norge 2020'
+                caption: 'Norge 2020',
+                images: ['IMGP4117.jpg', 'background1.jpg']
             }
         ]
     };

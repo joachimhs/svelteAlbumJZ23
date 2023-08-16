@@ -699,3 +699,14 @@ Changes made in commit: [cca5f89](https://github.com/joachimhs/svelteAlbumJZ23/c
 +<div>{data.album.caption}</div>
 ```
 </details>
+
+## Step 7: Create the initial photo album
+
+### Topics:
+
+- Expand the album data with photos/images
+- Adding the first image and album thumbnails to the [albumid] +page.svelte
+
+Changes made in commit: 
+
+### Code Code Diff for Step 7: 
