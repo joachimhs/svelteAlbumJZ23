@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal" style="width: 100%;">
+			<div class="slides">
+				<section data-markdown data-background-image="/images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						## What is Svelte
+						## and SvelteKit?
+
+						- Svelte is a:
+							- programming language
+							- component framework
+							- compiler
+						- SvelteKit is a:
+							- meta-framework built on top of Svelte
+							- helps build full-stack application for the modern web.
+---
+						## Svelte - the language
+
+						- Svelte is a programming language using the .svelte file extension.
+						- A .svelte file contains HTML, CSS and JavaScript
+						- Svelte will compile this down to vanilla JavaScript
+
+						<pre><code data-line-numbers>
+						<script>
+							const name = "Joachim";
+						</script>
+
+						<h1>Hello {name}!</h1>
+
+						<style>
+							h1 {
+								color: pink;
+								font-size: 15px;
+							}
+						</style>
+						</code></pre>
+---
+						## Svelte - The component library
+
+						- Svelte is a component library, similar to React and Vue
+						- Provides interesting features such as
+							- Reactivity
+							- Reactive Statements
+							- Stores
+							- and much more
+						---
+						## Svelte - The compiler
+
+						- Probably the most unique and interesting feature of Svelte
+						- A Svelte app is compiled at build time into vanilla JavaScript code
+							- You only ship the Svelte-library code you actually use in you app
+						- Means that Svelte can add any number of features into its codebase without affecting you apps footprint
+
+						---
+						## SvelteKit - The meta framework
+
+						- SvelteKit adds additional features that are needed to build fuill-stack applications
+							- Server-side rendering
+							- Hooks
+							- Form actions
+							- API routes
+							- Endpoints
+							- Hydrization
+							- etc
+					</textarea>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				width: 1600,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
