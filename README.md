@@ -34,9 +34,7 @@ You can preview the production build with `npm run preview`.
 
 ## Step 0: What is Svelte and SvelteKit?
 
-<iframe width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html"></iframe>
-
-[Step 0 slides](https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html)
+<a href="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html" target="_blank"><img width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part1_cover.jpg"></iframe>
 
 ## Step 1: Show slideshow of front-images with CSS transitions: 
 
