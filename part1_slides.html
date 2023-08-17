@@ -57,6 +57,7 @@
 							- Reactivity
 							- Reactive Statements
 							- Stores
+							- No Virtual DOM (!!)
 							- and much more
 						---
 						## Svelte - The compiler
@@ -67,6 +68,67 @@
 						- Means that Svelte can add any number of features into its codebase without affecting you apps footprint
 
 						---
+						## Svelte Reactivity
+
+						- Based on normal assignments, no special functions to learn
+							- no React useState and setState
+						- UI updates automatically when variables change
+						- Here, whenever **increment()** is called, **count** gets updated, which also triggers the **UI** to update ***automagically***!
+
+						<pre><code data-line-numbers>
+						let count = 0;
+
+						function increment() {
+						  count += 1;
+						}
+						</code></pre>
+
+						---
+						## Svelte Reactivity statements
+
+						- $: creates a reactive statement, which keeps up-to-date whenever any of its dependant-variables change
+							- No need for complex state-management libraries
+
+						<pre><code data-line-numbers>
+						<script>
+						let a = 2;
+						let b = 4
+						$: product = a * b;
+						</script>
+
+						<h1>Product is: {product}</h1>>
+						</code></pre>
+						---
+						## Svelte Components
+
+						- A .svelte file is a component containing its own markup, its own state and its own logic
+						- A .svelte file can contains three code types:
+							- JavaScript inside the **\<script\>**-tag
+							- Markup: Normal HTML with markup logic contained within **{** and **}**
+							- Styles that are component-specific inside the **\<style\>**-tag
+
+						<pre><code data-line-numbers>
+						<script>
+							const name = "Joachim";
+						</script>
+
+						<h1>Hello {name}!</h1>
+
+						<style>
+							h1 {
+								color: pink;
+								font-size: 15px;
+							}
+						</style>
+						</code></pre>
+
+						---
+						## Svelte vs SvelteKit
+
+						<img src="images/part1_svelte_vs_kit.png" />
+
+						---
+
 						## SvelteKit - The meta framework
 
 						- SvelteKit adds additional features that are needed to build fuill-stack applications
@@ -77,6 +139,8 @@
 							- Endpoints
 							- Hydrization
 							- etc
+
+						---
 					</textarea>
 				</section>
 
