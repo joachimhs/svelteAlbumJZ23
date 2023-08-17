@@ -18,6 +18,15 @@
 			<div class="slides">
 				<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
 					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+						---
+						## $ ~ whoami
+
+						- I am Joachim Skeie
+						- Senior Consultant at Experis Norway
+						- Author of Ember.js in action (2014)
+						- Run a makerspace for kids (Skaperiet)
+						---
 						## What is Svelte
 						## and SvelteKit?
 
@@ -58,6 +67,7 @@
 							- Reactive Statements
 							- Stores
 							- No Virtual DOM (!!)
+							- Stores
 							- and much more
 						---
 						## Svelte - The compiler
@@ -123,12 +133,27 @@
 						</code></pre>
 
 						---
+						## Svelte - Stores
+
+						- Allows multiple components to share state without passing data as props
+						- Has a **subscribe()**-function that will notify components when the store value change
+						- Stores are reactive
+							- Any component subscribing to the store will see any change made to the store
+						- A Svelte component can use the store via the $-handle
+						- Stores can be readable, writable or derived
+
+						---
 						## Svelte vs SvelteKit
 
 						<img src="images/part1_svelte_vs_kit.png" />
 
 						---
+						## SvelteKit
 
+						"SvelteKit is built on Svelte, a UI framework that uses a compiler to let you write breathtakingly concise components that do minimal work in the browser, using languages you already know — HTML, CSS and JavaScript. It's a love letter to web development."
+
+						<div style="text-align: right">- <a href="https://kit.svelte.dev" target="_blank">kit.svelte.dev</a></div>
+						---
 						## SvelteKit - The meta framework
 
 						- SvelteKit adds additional features that are needed to build fuill-stack applications
@@ -141,6 +166,36 @@
 							- etc
 
 						---
+						## SvelteKit - ServerSide Rendering
+
+						- SvelteKit supports SSR, ensures your app is both fast and supports SEO
+							- SSR sends a complete website to the browser
+							- Hydration ensures SPA-features users expects from modern webapps
+
+						---
+						## SvelteKit - Routing
+
+						- SvelteKit includes a built-in directory-based router that ensures:
+							- URLs are human readable
+							- Consistent directory-structure
+							- Splits your code into essentialy "page-based components" and site-wide components
+
+						---
+						## SvelteKit - Routing
+
+						<img src="images/part1_svelte_dirstructure.png" style="height: 700px" />
+
+						---
+						## SvelteKit - Adaptability
+
+						- SvelteKit is designed to be adaptable
+						- Has built-in support for multiple build and deploy targets
+							- Cloudflare
+							- Netlify
+							- Node
+							- Vercel
+							- Static
+							- A range of community developed adapters
 					</textarea>
 				</section>
 
