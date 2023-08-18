@@ -49,7 +49,7 @@ You can preview the production build with `npm run preview`.
 Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/commit/0169626072b0d148e6dba679ba15c1ad06b5fb9a)
 
 <details>
-  <summery>/src/routes/+page.svelte</summery>
+  <summary>/src/routes/+page.svelte</summary>
 
 ```diff
 +<script>
