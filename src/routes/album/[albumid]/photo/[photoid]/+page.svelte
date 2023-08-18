@@ -1,17 +1,14 @@
 <script>
-    import {onMount} from "svelte";
-    import {page} from "$app/stores";
-
-    onMount(() => {
-
-    });
+    import ExifDetails from "$lib/components/ExifDetails.svelte";
 
     export let data;
 </script>
 
 <div class="full-image">
-    <img src="/images/{data.photo.id}" />
+    <img id="photoAlbumImage" src="/images/{data.photo.id}" />
 </div>
+
+<ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
 
 <style>
     .full-image {

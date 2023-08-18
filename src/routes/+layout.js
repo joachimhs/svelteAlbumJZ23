@@ -16,6 +16,10 @@ export function load({ params }) {
             {
                 id: 'IMGP6801.jpg',
                 title: 'Sommerfugl'
+            },
+            {
+                id: 'IMGP3329.jpg',
+                title: 'Hvitveis'
             }
         ],
         albums: [
@@ -23,7 +27,7 @@ export function load({ params }) {
                 id: 'makro',
                 image: 'IMGP4117.jpg',
                 caption: 'makro',
-                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg']
+                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg', 'IMGP3329.jpg']
             },
             {
                 id: 'norge2020',

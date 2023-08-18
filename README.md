@@ -861,7 +861,7 @@ Changes made in commit:
 
 Changes made in commit:
 
-### Code Code Diff for Step 7: [1e1c8f4](https://github.com/joachimhs/svelteAlbumJZ23/commit/1e1c8f48461714894fd958c0a072142f9b4019be)
+### Code Code Diff for Step 8: [1e1c8f4](https://github.com/joachimhs/svelteAlbumJZ23/commit/1e1c8f48461714894fd958c0a072142f9b4019be)
 
 <details>
     <summary>Rename src/routes/album/[albumid]/+page.js to src/routes/album/[albumid]/+layout.js</summary>
@@ -1124,3 +1124,17 @@ export let data;
 +</style>
 ```
 </details>
+
+## Step 9: Adding an external library
+
+### Topics:
+
+- Adding exifreader.js to read EXIF from photos
+  - npm install exifreader --save-dev 
+- Adding a component to show EXIF data
+- Use the browser import to only run markup in the browser
+- Adding a new photo will all EXIF data present
+
+Changes made in commit:
+
+### Code Code Diff for Step 9: []()

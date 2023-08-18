@@ -10,6 +10,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
+		"exifreader": "^4.13.0",
 		"svelte": "^4.0.5",
 		"vite": "^4.4.2"
 	},
