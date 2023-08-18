@@ -1370,3 +1370,11 @@ export function load({ params }) {
 </style>
 ```
 </details>
+
+## Step 10: Eek a bug!!
+
+### Topics: 
+
+- Try to open the second photo-album and figure out why it is not working! 
+- Solution will be given in step 11 :) 
+
