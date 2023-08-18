@@ -1,0 +1,289 @@
+diff --git a/README.md b/README.md
+index 35fd0a3..6fb166d 100644
+--- a/README.md
++++ b/README.md
+@@ -861,7 +861,7 @@ Changes made in commit:
+ 
+ Changes made in commit:
+ 
+-### Code Code Diff for Step 7: [1e1c8f4](https://github.com/joachimhs/svelteAlbumJZ23/commit/1e1c8f48461714894fd958c0a072142f9b4019be)
++### Code Code Diff for Step 8: [1e1c8f4](https://github.com/joachimhs/svelteAlbumJZ23/commit/1e1c8f48461714894fd958c0a072142f9b4019be)
+ 
+ <details>
+     <summary>Rename src/routes/album/[albumid]/+page.js to src/routes/album/[albumid]/+layout.js</summary>
+@@ -1123,4 +1123,18 @@ export let data;
+ +    }
+ +</style>
+ ```
+-</details>
+\ No newline at end of file
++</details>
++
++## Step 9: Adding an external library
++
++### Topics:
++
++- Adding exifreader.js to read EXIF from photos
++  - npm install exifreader --save-dev 
++- Adding a component to show EXIF data
++- Use the browser import to only run markup in the browser
++- Adding a new photo will all EXIF data present
++
++Changes made in commit:
++
++### Code Code Diff for Step 9: []()
+diff --git a/package-lock.json b/package-lock.json
+index ffbe04f..f9fc35c 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -10,6 +10,7 @@
+ 			"devDependencies": {
+ 				"@sveltejs/adapter-auto": "^2.0.0",
+ 				"@sveltejs/kit": "^1.20.4",
++				"exifreader": "^4.13.0",
+ 				"svelte": "^4.0.5",
+ 				"vite": "^4.4.2"
+ 			}
+@@ -527,6 +528,16 @@
+ 			"integrity": "sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==",
+ 			"dev": true
+ 		},
++		"node_modules/@xmldom/xmldom": {
++			"version": "0.8.10",
++			"resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.10.tgz",
++			"integrity": "sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==",
++			"dev": true,
++			"optional": true,
++			"engines": {
++				"node": ">=10.0.0"
++			}
++		},
+ 		"node_modules/acorn": {
+ 			"version": "8.10.0",
+ 			"resolved": "https://registry.npmjs.org/acorn/-/acorn-8.10.0.tgz",
+@@ -697,6 +708,16 @@
+ 				"@types/estree": "^1.0.0"
+ 			}
+ 		},
++		"node_modules/exifreader": {
++			"version": "4.13.0",
++			"resolved": "https://registry.npmjs.org/exifreader/-/exifreader-4.13.0.tgz",
++			"integrity": "sha512-IhJBpyXDLbCdgzVHkthadOvrMiZOR2XS7POVp0b5JoVfScRoCJ6YazZ+stTkbDTE5TRTP44bE5RKsujckAs45Q==",
++			"dev": true,
++			"hasInstallScript": true,
++			"optionalDependencies": {
++				"@xmldom/xmldom": "^0.8.8"
++			}
++		},
+ 		"node_modules/fsevents": {
+ 			"version": "2.3.2",
+ 			"resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz",
+diff --git a/package.json b/package.json
+index da20d38..e89ac91 100644
+--- a/package.json
++++ b/package.json
+@@ -10,6 +10,7 @@
+ 	"devDependencies": {
+ 		"@sveltejs/adapter-auto": "^2.0.0",
+ 		"@sveltejs/kit": "^1.20.4",
++		"exifreader": "^4.13.0",
+ 		"svelte": "^4.0.5",
+ 		"vite": "^4.4.2"
+ 	},
+diff --git a/src/lib/components/ExifDetails.svelte b/src/lib/components/ExifDetails.svelte
+new file mode 100644
+index 0000000..fb22e4e
+--- /dev/null
++++ b/src/lib/components/ExifDetails.svelte
+@@ -0,0 +1,135 @@
++<script>
++    import ExifReader from 'exifreader';
++    import {browser} from "$app/environment";
++    import {onMount} from "svelte";
++
++    export let photoElementId = null;
++    export let photo = null
++    let exifData = {};
++
++    onMount(async () => {
++        if (photoElementId) {
++            let img = document.getElementById(photoElementId);
++            const tags = await ExifReader.load(img.src, {includeUnknown: true});
++
++            exifData.shutter = tags.ExposureTime?.description;
++            exifData.exposureSetting = tags.ExposureBiasValue?.description;
++            exifData.focalLength = tags.FocalLength?.description;
++            exifData.iso = tags.ISOSpeedRatings?.description;
++            exifData.lens = tags.Lens?.description;
++            exifData.model = tags.Model?.description;
++            exifData.date = tags.DateTime?.description;
++            exifData.exposureMode = tags.ExposureMode?.description;
++            exifData.fstop = tags.ApertureValue ? parseFloat(tags.ApertureValue.description) : '';
++        }
++    });
++</script>
++
++{#if browser}
++    <div class="exif-info">
++        <div class="exif-info-label">
++            Vis Exif Info
++        </div>
++        <table>
++            <tbody>
++            <tr>
++                <td>Tittel</td>
++                <td>{photo.title}</td>
++            </tr>
++            <tr>
++                <td>Beskrivelse</td>
++                <td></td>
++            </tr>
++            <tr>
++                <td>Model</td>
++                <td>{exifData.model}</td>
++            </tr>
++
++            <tr>
++                <td>Linse</td>
++                <td>{exifData.lens}</td>
++            </tr>
++
++            <tr>
++                <td>Brennvidde</td>
++                <td>{exifData.focalLength}</td>
++            </tr>
++
++            <tr>
++                <td>Eksponeringstype</td>
++                <td>{exifData.exposureMode}</td>
++            </tr>
++
++            <tr>
++                <td>Blender</td>
++                <td>f/{exifData.fstop}</td>
++            </tr>
++
++            <tr>
++                <td>Lukkertid</td>
++                <td>{exifData.shutter}</td>
++            </tr>
++
++            <tr>
++                <td>ISO</td>
++                <td>{exifData.iso}</td>
++            </tr>
++
++            <tr>
++                <td>Exponering</td>
++                <td>{exifData.exposureSetting}</td>
++            </tr>
++
++            <tr>
++                <td>Dato</td>
++                <td>{exifData.date}</td>
++            </tr>
++            </tbody>
++        </table>
++    </div>
++{/if}
++
++<style>
++    .exif-info {
++        background: rgba(0,0,0, 0.65);
++        position: absolute;
++        top: 75px;
++        left: -476px;
++        color: white;
++        padding: 10px;
++        transition: all 0.5s;
++    }
++
++    .exif-info:hover {
++        left: 0;
++    }
++
++    .exif-info-label {
++        writing-mode: vertical-rl;
++        text-orientation: mixed;
++        float: right;
++        text-align: center;
++        padding-left: 10px;
++        height: fit-content;
++        padding-top: 90px;
++        letter-spacing: 1px;
++        font-family: sans-serif;
++    }
++
++    .exif-info table {
++        border: 1px solid rgba(255, 255, 255, 0.6);
++        padding: 5px;
++    }
++
++    .exif-info table td:nth-child(1) {
++        width: 50px;
++        overflow: visible;
++        padding-bottom: 10px;
++        padding-right: 30px;
++    }
++
++    .exif-info table td:nth-child(2) {
++        width: 300px;
++        overflow: visible;
++    }
++</style>
+\ No newline at end of file
+diff --git a/src/routes/+layout.js b/src/routes/+layout.js
+index f5f6160..06c133e 100644
+--- a/src/routes/+layout.js
++++ b/src/routes/+layout.js
+@@ -16,6 +16,10 @@ export function load({ params }) {
+             {
+                 id: 'IMGP6801.jpg',
+                 title: 'Sommerfugl'
++            },
++            {
++                id: 'IMGP3329.jpg',
++                title: 'Hvitveis'
+             }
+         ],
+         albums: [
+@@ -23,7 +27,7 @@ export function load({ params }) {
+                 id: 'makro',
+                 image: 'IMGP4117.jpg',
+                 caption: 'makro',
+-                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg']
++                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg', 'IMGP3329.jpg']
+             },
+             {
+                 id: 'norge2020',
+diff --git a/src/routes/album/[albumid]/photo/[photoid]/+page.svelte b/src/routes/album/[albumid]/photo/[photoid]/+page.svelte
+index f60bd49..cbfb35f 100644
+--- a/src/routes/album/[albumid]/photo/[photoid]/+page.svelte
++++ b/src/routes/album/[albumid]/photo/[photoid]/+page.svelte
+@@ -1,18 +1,15 @@
+ <script>
+-    import {onMount} from "svelte";
+-    import {page} from "$app/stores";
+-
+-    onMount(() => {
+-
+-    });
++    import ExifDetails from "$lib/components/ExifDetails.svelte";
+ 
+     export let data;
+ </script>
+ 
+ <div class="full-image">
+-    <img src="/images/{data.photo.id}" />
++    <img id="photoAlbumImage" src="/images/{data.photo.id}" />
+ </div>
+ 
++<ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
++
+ <style>
+     .full-image {
+         width: 100vw;
+diff --git a/static/images/IMGP3329.jpg b/static/images/IMGP3329.jpg
+new file mode 100644
+index 0000000..b666100
+Binary files /dev/null and b/static/images/IMGP3329.jpg differ
