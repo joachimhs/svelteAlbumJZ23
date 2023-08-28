@@ -59,11 +59,7 @@ You can preview the production build with `npm run preview`.
 </tr>
 </table>
 
-## Step 0: What is Svelte and SvelteKit?
 
-<a href="https://joachimhs.github.io/svelteAlbumJZ23/part0_slides.html" target="_blank">
-    <img alt="Slide part 0" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part0_cover.jpg">
-</a>
 
 <table>
 <tr>
