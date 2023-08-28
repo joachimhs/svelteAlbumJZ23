@@ -143,6 +143,10 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 ## Step 2: Pass data from Svelte Server to client
 
+<a href="https://joachimhs.github.io/svelteAlbumJZ23/part2_slides.html" target="_blank">
+    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part2_cover.jpg">
+</a>
+
 ### Topics: 
 
 - Using +layout.js to create JSON data via the load-function
@@ -155,6 +159,7 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
   <summary>/src/routes/+page.js</summary>
 
 ```diff
++export function load({ params }) {
 +    return {
 +        photos: [
 +            {
