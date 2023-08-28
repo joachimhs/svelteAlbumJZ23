@@ -35,13 +35,15 @@ You can preview the production build with `npm run preview`.
 ## Step 0: What is Svelte and SvelteKit?
 
 <a href="https://joachimhs.github.io/svelteAlbumJZ23/part0_slides.html" target="_blank">
-    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part0_cover.jpg">
+    <img alt="Slide part 0" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part0_cover.jpg">
 </a>
+
+<div style="float:none; overflow: auto;">
 
 ## Step 1: Show slideshow of front-images with CSS transitions: 
 
-<a href="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html" target="_blank">
-    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part1_cover.jpg">
+<a style="float: left; margin-right: 25px; overflow: auto;" href="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html" target="_blank">
+    <img alt="Slide part 1" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part1_cover.jpg">
 </a>
 
 ### Topics:
@@ -49,6 +51,8 @@ You can preview the production build with `npm run preview`.
 - Script, HTML and Style areas of +page.svelte
 - Run code when browser loads: onMount
 - Add page-wide variables and page-wide functions
+
+</div>
 
 Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/commit/0169626072b0d148e6dba679ba15c1ad06b5fb9a)
 
@@ -141,10 +145,12 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 </details>
 
 
+<div style="float:none; overflow: auto;">
+
 ## Step 2: Pass data from Svelte Server to client
 
-<a href="https://joachimhs.github.io/svelteAlbumJZ23/part2_slides.html" target="_blank">
-    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part2_cover.jpg">
+<a style="float: left; margin-right: 25px;" href="https://joachimhs.github.io/svelteAlbumJZ23/part2_slides.html" target="_blank">
+    <img alt="Slide part 1" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part2_cover.jpg">
 </a>
 
 ### Topics: 
@@ -152,6 +158,8 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Using +layout.js to create JSON data via the load-function
 - Getting the data on the client via the magic export let data variable in Svelte
 - Iterating over the data with the {#each} keyword
+
+</div>
 
 Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/commit/d6cb932328d0755b2d9574792e81aa7cdff34757)
 
@@ -279,10 +287,12 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 3: Move Slideshow to its own Slideshow-component
 
-<a href="https://joachimhs.github.io/svelteAlbumJZ23/part3_slides.html" target="_blank">
-    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part3_cover.jpg">
+<a style="float: left; margin-right: 25px;" href="https://joachimhs.github.io/svelteAlbumJZ23/part3_slides.html" target="_blank">
+    <img alt="Slide part 1" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part3_cover.jpg">
 </a>
 
 ### Topics: 
@@ -291,6 +301,8 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Structure of a Svelte component
 - Using component and passing in component parameters via export let paramName
 - Using onMount in component to initialize component on DOM insert
+
+</div>
 
 Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/commit/a59cdddae242a85987dd6c8b7151d665325f79ad)
 
@@ -475,6 +487,8 @@ Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 4: Add photo album grid-area
 
 ### Topics: 
@@ -482,6 +496,8 @@ Changes made in commit: [a59cddd](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Adding global .css file with site-wide CSS
 - Importing global .css file into +page.svelte
 - Adding grid-area for photo albums
+
+</div>
 
 Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/commit/86976bba7c58a972a1fba8326c615ca26475f67c)
 
@@ -614,6 +630,8 @@ Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/c
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 5: Create album-index component
 
 ### Topics: 
@@ -622,6 +640,8 @@ Changes made in commit: [86976bb](https://github.com/joachimhs/svelteAlbumJZ23/c
 - Also returning album JSON from the SvelteKit server via load()
 - Adding checks to support non-iterable albums in PhotoAlbumIndex component
 - Adding {:else} fallback to the album iterator
+
+</div>
 
 Changes made in commit: [ce023b7](https://github.com/joachimhs/svelteAlbumJZ23/commit/ce023b7c5f2dec8761ad6f93b9fa9bb676cbef0a)
 
@@ -877,6 +897,8 @@ title: 'Sommerfugl'
  ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 6: Create album route and fetch data from parent
 
 ### Topics:
@@ -884,6 +906,8 @@ title: 'Sommerfugl'
 - Introduction to +layout.js to fetch data also available to children routes
 - Creating a static route (album) and a dynamic route ([albumid])
 - Fetching relevant data from the parent +layout.js file using load() with both {parent and params}
+
+</div>
 
 Changes made in commit: [cca5f89](https://github.com/joachimhs/svelteAlbumJZ23/commit/cca5f89990f98145b9938c17fc9afab9cca0f23b)
 
@@ -925,12 +949,16 @@ Changes made in commit: [cca5f89](https://github.com/joachimhs/svelteAlbumJZ23/c
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 7: Create the initial photo album
 
 ### Topics:
 
 - Expand the album data with photos/images
 - Adding the first image and album thumbnails to the [albumid] +page.svelte
+
+</div>
 
 Changes made in commit: 
 
@@ -1067,6 +1095,8 @@ Changes made in commit:
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 8: Adding the photo route and refactoring
 
 ### Topics:
@@ -1077,6 +1107,8 @@ Changes made in commit:
 - Adding [photoid] dynamic route for each photo
 - Redirecting user from album to photo if no photo is present in URL/params
 - Finding the correct photo from the photos array in [photoid]/+page.js
+
+</div>
 
 Changes made in commit:
 
@@ -1344,6 +1376,8 @@ export let data;
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 9: Adding an external library
 
 ### Topics:
@@ -1353,6 +1387,8 @@ export let data;
 - Adding a component to show EXIF data
 - Use the browser import to only run markup in the browser
 - Adding a new photo will all EXIF data present
+
+</div>
 
 Changes made in commit:
 
@@ -1590,6 +1626,8 @@ export function load({ params }) {
 ```
 </details>
 
+<div style="float:none; overflow: auto;">
+
 ## Step 10: Eek a bug!!
 
 ### Topics: 
@@ -1597,3 +1635,4 @@ export function load({ params }) {
 - Try to open the second photo-album and figure out why it is not working! 
 - Solution will be given in step 11 :) 
 
+</div>
