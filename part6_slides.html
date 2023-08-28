@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Making the web svelter with SvelteKit - Part 6</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			img {
+				max-height: 700px !important;
+			}
+
+			.reveal pre code {
+				max-height: 700px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal" style="width: 100%;">
+			<div class="slides">
+				<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+
+						### Part 6 - Fetching data from the parent
+
+						[Back to part 5](part5_slides.html)
+						---
+						## +page.js vs +layout.js
+
+						- Just as +layout.svelte is valid for both the current route and children routes, +layout.js is also available to children routes
+							- The ***load()***-function follows the same structure
+						- Use +page.js if the data is specific to this route only
+						- Use +layout.js if you want to also propagate the data to the child routes
+
+						---
+						## Renaming files
+
+						- Start by renaming /src/routes/+page.js to /src/routes/+layout.js
+							- The data is automagically still available at /src/routes/+page.svelte
+						---
+						## Create routes for the album
+
+						- Start by creating a static route "album" by:
+							- Creating directory /src/routes/album
+						- Add dynamic route for the selected album using the album identifier:
+							- Create directory /src/routes/album/[albumid]
+						---
+						## Load album-data from the parent
+
+						- Create file /src/routes/album/[albumid]/+page.js
+
+						```javascript []
+						export async function load({parent, params}) {
+							//Fetch data from parent
+						    const data = await parent();
+							//Filter out the album based on the URL-parameter params.albumid
+						    let album = await data.albums.find((album) => album.caption === params.albumid);
+
+							//Return only the correct album
+						    return { album: album};
+						}
+						```
+						---
+						## Add the album/[albumid] page component
+
+						- Create file /src/routes/album/[albumid]/+page.svelte
+
+						```svelte []
+						<script>
+						    import {page} from "$app/stores";
+
+						    export let data;
+						</script>
+
+						<h1>Velkommen til {$page.params.albumid} albumet!</h1>
+
+						<div>{data.album.caption}</div>
+						```
+						---
+						## Onwards
+
+						[part 7](part7_slides.html)
+					</textarea>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				width: 1600,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
