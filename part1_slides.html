@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Making the web svelter with SvelteKit - Part 1</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -12,6 +12,16 @@
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+		<style>
+			img {
+				max-height: 700px !important;
+			}
+
+			.reveal pre code {
+				max-height: 700px;
+			}
+		</style>
 	</head>
 	<body>
 		<div class="reveal" style="width: 100%;">
@@ -110,13 +120,72 @@
 						<script>
      						import {onMount} from "svelte";
 
-							let photoLength = 0;
-
+     						let photoLength = 0;
 							onMount(() => {
 								photoLength = document.querySelector("#cf2").children.length;
+								setFirstPhoto();
 							});
+
+							function setFirstPhoto() {
+
+							}
 						</script>
+
+						<style>
+							#cf2 div.transparent {
+								 opacity: 0;
+							 }
+						</style>
 						```
+						---
+						## Adding zoom and transition CSS effects
+
+						```svelte []
+						    let intervalId = null;
+							let intervalMs = 10000;
+							let photoLength = 0;
+
+							let intervalId = null;
+							let intervalMs = 10000;
+							let photoLength = 0;
+							let currentPhoto = 0;
+
+						    function changePhoto() {
+								console.log("change photo: " + photoLength);
+								let nextPhoto = currentPhoto >= photoLength - 1 ? 0 : currentPhoto + 1;
+								console.log("currentPhoto: " + currentPhoto + " nextPhoto:" + nextPhoto);
+
+								if (document.getElementById("cf2")) {
+									document.getElementById("cf2").children[currentPhoto].classList.add("transparent");
+									document.getElementById("cf2").children[currentPhoto].classList.remove("zoom");
+									document.getElementById("cf2").children[nextPhoto].classList.remove("transparent");
+									document.getElementById("cf2").children[nextPhoto].classList.add("zoom");
+								}
+
+								currentPhoto = nextPhoto;
+							}
+
+							function setFirstPhoto() {
+								if (document.getElementById("cf2") && document.getElementById("cf2").children.length > 0) {
+									document.getElementById("cf2").children[0].classList.remove("transparent");
+									setTimeout(function () {
+										console.log('ADDING ZOOM: ' + document.getElementById("cf2").children[0].classList);
+										document.getElementById("cf2").children[0].classList.add("zoom");
+										console.log(document.getElementById("cf2").children[0].classList);
+									}, 1000);
+								}
+
+								if (intervalId) {
+									clearInterval(intervalId);
+								}
+
+								intervalId = setInterval(changePhoto, intervalMs);
+							}
+						```
+						---
+						## Onwards
+
+						[part 2](part2_slides.html)
 					</textarea>
 				</section>
 

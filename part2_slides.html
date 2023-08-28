@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Making the web svelter with SvelteKit - Part 2</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		<style>
+			img {
+				max-height: 700px !important;
+			}
+
+			.reveal pre code {
+				max-height: 700px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal" style="width: 100%;">
+			<div class="slides">
+				<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+
+						### Part 2 - Pass data from Svelte Server to client
+
+						[Back to part 1](part1_slides.html)
+						---
+						## Using the load()-function
+
+						- The load()-function is available for use in:
+							- +page.svelte
+							- +page.js
+							- +layout.svelte
+							- +layout.js
+							- +page.server.js
+							- +layout.server.js
+						- Depending on what you need to do, will determine which load()-function to use
+						---
+						## Using the load()-function
+
+						<img src="images/part2_load_function.png" />
+						---
+						## +server.js to create APIs
+
+						- .server.js files create APIs with URLs determined by the directory-structure
+							- HTTP GET is handled via the GET({ params, request, cookies })-function
+							- HTTP POST is handled via the POST({ params, request, cookies })-function
+							- HTTP PUT is handled via the PUT({ params, request, cookies })-function
+							- HTTP DELETE is handled via the DELETE({ params, request, cookies })-function
+						- A common pattern is to place these in a separate routes/api/**-directory
+						---
+						## API-handlers example
+
+						```svelte []
+						import { json } from '@sveltejs/kit';
+
+						export function GET({ request, cookies }) {
+							const userid = cookies.get('userid');
+
+							//... logic
+
+							return json(data);
+						}
+
+						export async function POST({ request, cookies }) {
+							const { data } = await request.json();
+
+							//... logic
+
+							return json({ id }, { status: 201 });
+						}
+
+						export async function PUT({ params, request, cookies }) {
+							const { done } = await request.json();
+
+							//... logic
+
+							return new Response(null, { status: 204 });
+						}
+
+						export async function DELETE({ params, cookies }) {
+							const userid = cookies.get('userid');
+
+							//... logic
+
+							return new Response(null, { status: 204 });
+						}
+						```
+						---
+						## Loading images from +page.js
+
+						```svelte []
+						export function load({ params }) {
+							return {
+								 photos: [
+									 {
+										 id: 'IMGP4117.jpg',
+										 title: 'Valmue'
+									 },
+									 {
+										 id: 'background1.jpg',
+										 title: 'Tyttebær'
+									 },
+									 {
+										 id: 'IMGP4642.jpg',
+										 title: 'Tyttebær 2'
+									 },
+									 {
+										 id: 'IMGP6801.jpg',
+										 title: 'Sommerfugl'
+									 }
+								 ]
+							 };
+						 }
+						```
+						---
+						## Available in +page.svelte via export let data;
+
+						```svelte []
+						export let data;
+						```
+						---
+						## Using the data in the markup
+
+						```diff []
+						<div id="cf2">
+						-	 <div class="photo transparent" style="background-image: url('/images/background1.jpg')"/>
+						-	 <div class="photo transparent" style="background-image: url('/images/IMGP4117.jpg')"/>
+						-	 <div class="photo transparent" style="background-image: url('/images/IMGP4642.jpg')"/>
+						-	 <div class="photo transparent" style="background-image: url('/images/IMGP6801.jpg')"/>
+						+	 {#each data.photos as photo}
+						+		 <div class="photo transparent" style="background-image: url('/images/{photo.id}')"/>
+						+	 {/each}
+						 </div>
+						```
+
+						```svelte []
+						<div id="cf2">
+							 {#each data.photos as photo}
+								 <div class="photo transparent" style="background-image: url('/images/{photo.id}')"/>
+							 {/each}
+						 </div>
+						```
+						---
+						## Onwards
+
+						[part 3](part3_slides.html)
+					</textarea>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				width: 1600,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
