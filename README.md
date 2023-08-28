@@ -38,13 +38,16 @@ You can preview the production build with `npm run preview`.
     <img alt="Slide part 0" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part0_cover.jpg">
 </a>
 
-<div style="float:none; overflow: auto;">
-
 ## Step 1: Show slideshow of front-images with CSS transitions: 
 
-<a style="float: left; margin-right: 25px; overflow: auto;" href="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html" target="_blank">
+<table>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part1_slides.html" target="_blank">
     <img alt="Slide part 1" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part1_cover.jpg">
 </a>
+</td>
+<td>
 
 ### Topics:
 
@@ -52,7 +55,10 @@ You can preview the production build with `npm run preview`.
 - Run code when browser loads: onMount
 - Add page-wide variables and page-wide functions
 
-</div>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 
 Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/commit/0169626072b0d148e6dba679ba15c1ad06b5fb9a)
 
@@ -144,6 +150,9 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 ```
 </details>
 
+</td>
+</tr>
+</table>
 
 <div style="float:none; overflow: auto;">
 
