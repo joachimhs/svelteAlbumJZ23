@@ -41,7 +41,7 @@ You can preview the production build with `npm run preview`.
 <table>
 <tr>
 <th colspan="2">
-## Step 1: Show slideshow of front-images with CSS transitions:
+<h2>Step 1: Show slideshow of front-images with CSS transitions</h2>
 </th>
 </tr>
 <tr>
