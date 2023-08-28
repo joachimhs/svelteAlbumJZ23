@@ -32,6 +32,33 @@ You can preview the production build with `npm run preview`.
 
 # Tutorial
 
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 0: What is Svelte and SvelteKit?</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part0_slides.html" target="_blank">
+        <img alt="Slide part 0" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part0_cover.jpg">
+    </a>
+</td>
+<td>
+
+### Topics:
+
+- Svelte and SvelteKit Introduction
+- Svelte Directory Structure
+- Svelte Components
+- Svelte Stores
+- Server-Side Rendering (SSR)
+- Routing
+
+</td>
+</tr>
+</table>
+
 ## Step 0: What is Svelte and SvelteKit?
 
 <a href="https://joachimhs.github.io/svelteAlbumJZ23/part0_slides.html" target="_blank">
@@ -157,21 +184,32 @@ Changes made in commit: [0169626](https://github.com/joachimhs/svelteAlbumJZ23/c
 </tr>
 </table>
 
-<div style="float:none; overflow: auto;">
 
-## Step 2: Pass data from Svelte Server to client
 
-<a style="float: left; margin-right: 25px;" href="https://joachimhs.github.io/svelteAlbumJZ23/part2_slides.html" target="_blank">
-    <img alt="Slide part 1" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part2_cover.jpg">
-</a>
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 2: Pass data from Svelte Server to client</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part2_slides.html" target="_blank">
+        <img alt="Slide part 2" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part2_cover.jpg">
+    </a>
+</td>
+<td>
 
-### Topics: 
+### Topics:
 
 - Using +layout.js to create JSON data via the load-function
 - Getting the data on the client via the magic export let data variable in Svelte
 - Iterating over the data with the {#each} keyword
 
-</div>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 
 Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/commit/d6cb932328d0755b2d9574792e81aa7cdff34757)
 
@@ -298,6 +336,12 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 </style>
 ```
 </details>
+
+</td>
+</tr>
+</table>
+
+
 
 <div style="float:none; overflow: auto;">
 
