@@ -281,6 +281,10 @@ Changes made in commit: [d6cb932](https://github.com/joachimhs/svelteAlbumJZ23/c
 
 ## Step 3: Move Slideshow to its own Slideshow-component
 
+<a href="https://joachimhs.github.io/svelteAlbumJZ23/part3_slides.html" target="_blank">
+    <img alt="Slide part 1" width="400" height="300" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part3_cover.jpg">
+</a>
+
 ### Topics: 
 
 - Using lib/components, and the $lib import statement
