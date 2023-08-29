@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Making the web svelter with SvelteKit - Part 8</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/white.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		img {
+			max-height: 700px !important;
+		}
+
+		.reveal pre code {
+			max-height: 700px;
+		}
+	</style>
+</head>
+<body>
+<div class="reveal" style="width: 100%;">
+	<div class="slides">
+		<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+
+						### Part 8 - Adding the photo route
+
+						[Back to part 7](part7_slides.html)
+						---
+						## Designing the layouts
+
+						<img src="images/part8_album_layouts.png" />
+						---
+						## Refactoring
+
+						- We need to move some code in order to achieve this
+						- First we need to rename src/routes/album/[albumid]/+page.js to src/routes/album/[albumid]/+layout.js
+						- Next, we need to delegate the selected photo view to a subroute using the ***slot***-element
+						- If no photo is selected (user is at the album/[albumid] route), redirect to the first photo in the album
+						---
+						## The updated +layout.svelte
+
+						```svelte [6-12, 20]
+						<script>
+							import {page} from "$app/stores";
+							import {onMount} from "svelte";
+							import {goto} from "$app/navigation";
+
+							onMount(() => {
+								if ($page.params.albumid && data.album.image && !$page.params.photoid) {
+									//We have not selected a photo from the album, select the albums image
+									goto('/album/' + $page.params.albumid + '/photo/' + data.album.image);
+								}
+
+							});
+							export let data;
+						</script>
+
+						<a href="/">
+							<div class="back-button">&lt;- Tilbake</div>
+						</a>
+
+						<slot></slot>
+
+						<div class="photo-albums-area in-album">
+							<div class="grid-container">
+								{#each data.album.images as image}
+									<a href="/album/{data.album.id}/photo/{image}">
+										<div class="grid-item">
+											<img class="grid-item-photo" src="/images/{image}">
+										</div>
+									</a>
+								{/each}
+							</div>
+						</div>
+
+
+
+						<style>
+							.back-button {
+								position: absolute;
+								top: 14px;
+								left: 14px;
+								background: #000;
+								color: #fff;
+								padding: 9px;
+								padding-left: 15px;
+								padding-right: 15px;
+								border-radius: 10px;
+								border: 2px solid #fff;
+							}
+
+							.in-album {
+								width: 100vw;
+								max-height: 20vh;
+								overflow-y: scroll;
+							}
+
+							.grid-container {
+								display: grid;
+								grid-template-columns: repeat(3, 30vw);
+								grid-gap: 3%;
+								margin-left: 1%;
+							}
+
+							.in-album .grid-container {
+								grid-template-columns: repeat(6, 16vw);
+								grid-gap: 1%;
+							}
+
+							.in-album .grid-item {
+								max-height: 17vh;
+								max-width: 16vw;
+							}
+
+							.in-album .grid-item img {
+								max-height: 17vh;
+								max-width: 16vw;
+								object-fit: cover;
+								object-position: center;
+							}
+
+							.grid-item img {
+								width: 30vw;
+								height: 20vh;
+								object-fit: cover;
+								transition: opacity 0.3s ease-in-out, transform 2s;
+							}
+
+							.grid-item {
+								width: 30vw;
+								height: 20vh;
+								transition: opacity 0.3s ease-in-out, transform 0.5s;
+								overflow: hidden;
+							}
+
+							.in-album .grid-item img {
+								max-height: 17vh;
+								max-width: 16vw;
+								object-fit: cover;
+								object-position: center;
+							}
+						</style>
+						```
+						---
+						## Update the album/[albumid]/+page.svelte
+
+						- Show a temporary page before redirecting
+
+						```svelte []
+						<script>
+							import {page} from "$app/stores";
+						</script>
+
+						<h1>Velkommen til {$page.params.albumid} albumet!</h1>
+						```
+						---
+						## Adding a dynamic route for photos
+
+						- Add a static route /src/routes/album/[albumid]/photo
+						- Add a dynamic route /src/routes/album/[albumid]/photo/[photoid]
+						---
+						## Loading data from the parent in /src/routes/album/[albumid]/photo/[photoid]/+page.js
+
+						```svelte []
+						export async function load({parent, params}) {
+							 const data = await parent();
+							 let album = await data.albums.find((album) => album.caption === params.albumid);
+							 let photo = await data.photos.find((photo) => photo.id = params.photoid);
+
+							 return { album: album, photo: photo};
+						}
+						```
+						---
+						## Showing the photo in /album/[albumid]/photo/[photoid]/+page.svelte
+
+						```svelte []
+						<script>
+							 import {onMount} from "svelte";
+							 import {page} from "$app/stores";
+
+							 onMount(() => {
+
+							 });
+
+							 export let data;
+						 </script>
+
+						 <div class="full-image">
+							 <img src="/images/{data.photo.id}" />
+						 </div>
+
+						 <style>
+							 .full-image {
+								 width: 100vw;
+								 height: 75vh;
+								 text-align: center;
+								 margin-bottom: 5vh;
+							 }
+
+							 .full-image img {
+								 max-width: 100%;
+								 height: clamp(10vh, 1000px, 75vh);
+								 object-fit: contain;
+								 transition: all 0.5s;
+							 }
+						 </style>
+						```
+						---
+						## Onwards
+
+						[part 9](part9_slides.html)
+					</textarea>
+		</section>
+
+	</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+	// More info about initialization & config:
+	// - https://revealjs.com/initialization/
+	// - https://revealjs.com/config/
+	Reveal.initialize({
+		hash: true,
+		width: 1600,
+		slideNumber: true,
+
+		// Learn about plugins: https://revealjs.com/plugins/
+		plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+	});
+</script>
+</body>
+</html>
