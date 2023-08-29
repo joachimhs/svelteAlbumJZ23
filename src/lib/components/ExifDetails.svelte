@@ -1,14 +1,15 @@
 <script>
     import ExifReader from 'exifreader';
     import {browser} from "$app/environment";
-    import {onMount} from "svelte";
+    import {afterUpdate, onMount} from "svelte";
 
     export let photoElementId = null;
     export let photo = null
     let exifData = {};
+    let previousPhotoId = null;
 
-    onMount(async () => {
-        if (photoElementId) {
+    async function readExif() {
+        if (previousPhotoId != photo.id && photoElementId) {
             let img = document.getElementById(photoElementId);
             const tags = await ExifReader.load(img.src, {includeUnknown: true});
 
@@ -21,7 +22,17 @@
             exifData.date = tags.DateTime?.description;
             exifData.exposureMode = tags.ExposureMode?.description;
             exifData.fstop = tags.ApertureValue ? parseFloat(tags.ApertureValue.description) : '';
+
+            previousPhotoId = photo.id;
         }
+    }
+
+    onMount(async () => {
+        await readExif();
+    });
+
+    afterUpdate(async () => {
+        await readExif();
     });
 </script>
 

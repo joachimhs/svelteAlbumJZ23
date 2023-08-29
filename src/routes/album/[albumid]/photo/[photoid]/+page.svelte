@@ -1,14 +1,17 @@
 <script>
     import ExifDetails from "$lib/components/ExifDetails.svelte";
+    import {browser} from "$app/environment";
 
     export let data;
 </script>
 
-<div class="full-image">
-    <img id="photoAlbumImage" src="/images/{data.photo.id}" />
-</div>
+{#if browser}
+    <div class="full-image">
+        <img id="photoAlbumImage" src="/images/{data.photo.id}" />
+    </div>
 
-<ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
+    <ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
+{/if}
 
 <style>
     .full-image {

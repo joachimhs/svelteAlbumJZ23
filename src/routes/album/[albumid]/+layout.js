@@ -1,6 +1,10 @@
-export async function load({parent, params}) {
-    const data = await parent();
-    let album = await data.albums.find((album) => album.id === params.albumid);
+import {browser} from "$app/environment";
 
-    return { album: album};
+export async function load({parent, params}) {
+    if (browser) {
+        const data = await parent();
+        let album = await data.albums.find((album) => album.id === params.albumid);
+
+        return {album: album};
+    }
 }

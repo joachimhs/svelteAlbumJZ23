@@ -2,6 +2,7 @@
     import {page} from "$app/stores";
     import {onMount} from "svelte";
     import {goto} from "$app/navigation";
+    import {browser} from "$app/environment";
 
     onMount(() => {
         if ($page.params.albumid && data.album.image && !$page.params.photoid) {
@@ -19,17 +20,19 @@
 
 <slot></slot>
 
-<div class="photo-albums-area in-album">
-    <div class="grid-container">
-        {#each data.album.images as image}
-            <a href="/album/{data.album.id}/photo/{image}">
-                <div class="grid-item">
-                    <img class="grid-item-photo" src="/images/{image}">
-                </div>
-            </a>
-        {/each}
+{#if browser}
+    <div class="photo-albums-area in-album">
+        <div class="grid-container">
+            {#each data.album.images as image}
+                <a href="/album/{data.album.id}/photo/{image}">
+                    <div class="grid-item">
+                        <img class="grid-item-photo" src="/images/{image}">
+                    </div>
+                </a>
+            {/each}
+        </div>
     </div>
-</div>
+{/if}
 
 
 
