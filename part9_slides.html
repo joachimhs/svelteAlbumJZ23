@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Making the web svelter with SvelteKit - Part 9</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/white.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		img {
+			max-height: 700px !important;
+		}
+
+		.reveal pre code {
+			max-height: 700px;
+		}
+	</style>
+</head>
+<body>
+<div class="reveal" style="width: 100%;">
+	<div class="slides">
+		<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+
+						### Part 9 - Adding an external library
+
+						[Back to part 8](part8_slides.html)
+						---
+						## Adding the library
+
+						```
+						npm install exifreader --save-dev
+						```
+						---
+						## Adding component ExifDetails
+
+						```svelte []
+						<script>
+							import ExifReader from 'exifreader';
+							import {browser} from "$app/environment";
+							import {onMount} from "svelte";
+
+							export let photoElementId = null;
+							export let photo = null
+							let exifData = {};
+
+							onMount(async () => {
+								if (photoElementId) {
+									let img = document.getElementById(photoElementId);
+									const tags = await ExifReader.load(img.src, {includeUnknown: true});
+
+									exifData.shutter = tags.ExposureTime?.description;
+									exifData.exposureSetting = tags.ExposureBiasValue?.description;
+									exifData.focalLength = tags.FocalLength?.description;
+									exifData.iso = tags.ISOSpeedRatings?.description;
+									exifData.lens = tags.Lens?.description;
+									exifData.model = tags.Model?.description;
+									exifData.date = tags.DateTime?.description;
+									exifData.exposureMode = tags.ExposureMode?.description;
+									exifData.fstop = tags.ApertureValue ? parseFloat(tags.ApertureValue.description) : '';
+								}
+							});
+						</script>
+
+						{#if browser}
+							<div class="exif-info">
+								<div class="exif-info-label">
+									Vis Exif Info
+								</div>
+								<table>
+									<tbody>
+									<tr>
+										<td>Tittel</td>
+										<td>{photo.title}</td>
+									</tr>
+									<tr>
+										<td>Beskrivelse</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>Model</td>
+										<td>{exifData.model}</td>
+									</tr>
+
+									<tr>
+										<td>Linse</td>
+										<td>{exifData.lens}</td>
+									</tr>
+
+									<tr>
+										<td>Brennvidde</td>
+										<td>{exifData.focalLength}</td>
+									</tr>
+
+									<tr>
+										<td>Eksponeringstype</td>
+										<td>{exifData.exposureMode}</td>
+									</tr>
+
+									<tr>
+										<td>Blender</td>
+										<td>f/{exifData.fstop}</td>
+									</tr>
+
+									<tr>
+										<td>Lukkertid</td>
+										<td>{exifData.shutter}</td>
+									</tr>
+
+									<tr>
+										<td>ISO</td>
+										<td>{exifData.iso}</td>
+									</tr>
+
+									<tr>
+										<td>Exponering</td>
+										<td>{exifData.exposureSetting}</td>
+									</tr>
+
+									<tr>
+										<td>Dato</td>
+										<td>{exifData.date}</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+						{/if}
+
+						<style>
+							.exif-info {
+								background: rgba(0,0,0, 0.65);
+								position: absolute;
+								top: 75px;
+								left: -476px;
+								color: white;
+								padding: 10px;
+								transition: all 0.5s;
+							}
+
+							.exif-info:hover {
+								left: 0;
+							}
+
+							.exif-info-label {
+								writing-mode: vertical-rl;
+								text-orientation: mixed;
+								float: right;
+								text-align: center;
+								padding-left: 10px;
+								height: fit-content;
+								padding-top: 90px;
+								letter-spacing: 1px;
+								font-family: sans-serif;
+							}
+
+							.exif-info table {
+								border: 1px solid rgba(255, 255, 255, 0.6);
+								padding: 5px;
+							}
+
+							.exif-info table td:nth-child(1) {
+								width: 50px;
+								overflow: visible;
+								padding-bottom: 10px;
+								padding-right: 30px;
+							}
+
+							.exif-info table td:nth-child(2) {
+								width: 300px;
+								overflow: visible;
+							}
+						</style>
+						```
+
+						---
+						## Updating [photoid]/+page.svelte
+
+						```diff []
+						 <script>
+						-    import {onMount} from "svelte";
+						-    import {page} from "$app/stores";
+						-
+						-    onMount(() => {
+						-
+						-    });
+						+    import ExifDetails from "$lib/components/ExifDetails.svelte";
+
+							 export let data;
+						 </script>
+
+						 <div class="full-image">
+						-    <img src="/images/{data.photo.id}" />
+						+    <img id="photoAlbumImage" src="/images/{data.photo.id}" />
+						 </div>
+
+						+<ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
+
+						 <style>
+							.full-image {
+								width: 100vw;
+								height: 75vh;
+								text-align: center;
+								margin-bottom: 5vh;
+							}
+
+							.full-image img {
+								max-width: 100%;
+								height: clamp(10vh, 1000px, 75vh);
+								object-fit: contain;
+								transition: all 0.5s;
+							}
+						</style>
+						```
+						---
+						## Onwards
+
+						[part 10](part10_slides.html)
+					</textarea>
+		</section>
+
+	</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+	// More info about initialization & config:
+	// - https://revealjs.com/initialization/
+	// - https://revealjs.com/config/
+	Reveal.initialize({
+		hash: true,
+		width: 1600,
+		slideNumber: true,
+
+		// Learn about plugins: https://revealjs.com/plugins/
+		plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+	});
+</script>
+</body>
+</html>
