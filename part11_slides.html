@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Making the web svelter with SvelteKit - Part 11</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/white.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<style>
+		img {
+			max-height: 700px !important;
+		}
+
+		.reveal pre code {
+			max-height: 700px;
+		}
+	</style>
+</head>
+<body>
+<div class="reveal" style="width: 100%;">
+	<div class="slides">
+		<section data-markdown data-background-image="images/reveal_background.jpg" data-background-size="contain">
+					<textarea data-template>
+						# Making the web Svelter with SvelteKit
+
+						### Part 11 - Fixing the bug
+
+						[Back to part 10](part10_slides.html)
+						---
+						## The error
+
+						- The error is fairly easy to fix, by changing the parameters in the find() function
+
+						---
+						### +layout.js
+
+						```diff []
+						export async function load({parent, params}) {
+							 const data = await parent();
+						-     let album = await data.albums.find((album) => album.caption === params.albumid);
+						+     let album = await data.albums.find((album) => album.id === params.albumid);
+
+							 return { album: album};
+						 }
+						```
+						---
+						## +page.js
+
+						```diff []
+						export async function load({parent, params}) {
+							 const data = await parent();
+						-     let album = await data.albums.find((album) => album.caption === params.albumid);
+						+     let album = await data.albums.find((album) => album.id === params.albumid);
+							 let photo = await data.photos.find((photo) => photo.id = params.photoid);
+
+
+							 return { album: album, photo: photo};
+						 }
+						```
+						---
+						## Onwards
+
+						[part 12](part12_slides.html)
+					</textarea>
+		</section>
+
+	</div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+	// More info about initialization & config:
+	// - https://revealjs.com/initialization/
+	// - https://revealjs.com/config/
+	Reveal.initialize({
+		hash: true,
+		width: 1600,
+		slideNumber: true,
+
+		// Learn about plugins: https://revealjs.com/plugins/
+		plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+	});
+</script>
+</body>
+</html>
