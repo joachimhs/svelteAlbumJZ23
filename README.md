@@ -1891,3 +1891,456 @@ export async function load({parent, params}) {
 </td>
 </tr>
 </table>
+
+
+
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 12: Creating a simple API</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part12_slides.html" target="_blank">
+        <img alt="Slide part 12" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part12_cover.jpg">
+    </a>
+</td>
+<td>
+
+### Topics:
+
+- Move data into an on-server "cache"
+- Generating an API for /api/albums
+- Generating an API for /api/photos
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+Changes made in commit: [d9324ca](https://github.com/joachimhs/svelteAlbumJZ23/commit/d9324cab45bafd0c5f3d20daabbd2033b12dbfd1)
+
+<details>
+  <summary>/src/lib/data/appData.js</summary>
+
+```diff
++let photos =  [
++    {
++        id: 'IMGP4117.jpg',
++        title: 'Valmue'
++    },
++    {
++        id: 'background1.jpg',
++        title: 'Tyttebær'
++    },
++    {
++        id: 'IMGP4642.jpg',
++        title: 'Tyttebær 2'
++    },
++    {
++        id: 'IMGP6801.jpg',
++        title: 'Sommerfugl'
++    },
++    {
++        id: 'IMGP3329.jpg',
++        title: 'Hvitveis'
++    }
++];
++
++let albums = [
++    {
++        id: 'makro',
++        image: 'IMGP4117.jpg',
++        caption: 'makro',
++        images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg', 'IMGP3329.jpg']
++    },
++    {
++        id: 'norge2020',
++        image: 'background1.jpg',
++        caption: 'Norge 2020',
++        images: ['IMGP4117.jpg', 'background1.jpg']
++    }
++];
++
++export const wait = async amount => new Promise(res => setTimeout(res, amount ?? 100));
++
++export async function getAlbums() {
++    await wait();
++
++    return albums;
++}
++
++export async function getPhotos() {
++    await wait();
++
++    return photos;
++}
+```
+</details>
+
+<details>
+  <summary>/src/routes/api/albums/+server.js</summary>
+
+```diff
++import {json} from "@sveltejs/kit";
++import {getAlbums} from "$lib/data/appData.js";
++
++
++export async function GET({ url, setHeaders, request }) {
++    let albums =  await getAlbums();
++
++    return json( {
++        albums: albums
++    });
+```
+</details>
+
+<details>
+  <summary>/src/routes/api/photos/+server.js</summary>
+
+```diff
++import {json} from "@sveltejs/kit";
++import {getPhotos} from "$lib/data/appData.js";
++
++
++export async function GET({ url, setHeaders, request }) {
++    let photos = await getPhotos();
++
++    return json( {
++        photos: photos
++    });
++}
+```
+</details>
+
+</td>
+</tr>
+</table>
+
+
+
+
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 13: Fetching data using Stores</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part13_slides.html" target="_blank">
+        <img alt="Slide part 13" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part13_cover.jpg">
+    </a>
+</td>
+<td>
+
+### Topics:
+
+- Creating a writable store for albums
+- Creating a writable store for photos
+- Using the store in the load()-function
+- Executing code only in the browser
+- Refactoring where appropriate
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+Changes made in commit: [3e253d1](https://github.com/joachimhs/svelteAlbumJZ23/commit/3e253d150cb133ec99c0d059d5a6e85a7922b4e8)
+
+<details>
+  <summary>/src/lib/components/ExifDetails.svelte</summary>
+
+```diff
+ <script>
+     import ExifReader from 'exifreader';
+     import {browser} from "$app/environment";
+-    import {onMount} from "svelte";
++    import {afterUpdate, onMount} from "svelte";
+ 
+     export let photoElementId = null;
+     export let photo = null
+     let exifData = {};
++    let previousPhotoId = null;
+ 
+-    onMount(async () => {
+-        if (photoElementId) {
++    async function readExif() {
++        if (previousPhotoId != photo.id && photoElementId) {
+             let img = document.getElementById(photoElementId);
+             const tags = await ExifReader.load(img.src, {includeUnknown: true});
+ 
+@@ -21,7 +22,17 @@
+             exifData.date = tags.DateTime?.description;
+             exifData.exposureMode = tags.ExposureMode?.description;
+             exifData.fstop = tags.ApertureValue ? parseFloat(tags.ApertureValue.description) : '';
++
++            previousPhotoId = photo.id;
+         }
++    }
++
++    onMount(async () => {
++        await readExif();
++    });
++
++    afterUpdate(async () => {
++        await readExif();
+     });
+ </script>
+```
+</details>
+
+<details>
+  <summary>/src/lib/stores/albumStore.js</summary>
+
+```diff
++import {writable} from "svelte/store";
++
++export let albumStore = writable([]);
++
++export async function fetchAlbums() {
++    const rawResponse = await fetch('/api/albums', {
++       method: 'GET',
++       headers: {
++           'Accept': 'application/json',
++           'Content-Type': 'application/json'
++       }
++    });
++
++    let content = await rawResponse.json();
++    albumStore.set(content.albums)
++}
+
+```
+</details>
+
+<details>
+  <summary>/src/lib/stores/photoStore.js</summary>
+
+```diff
++import {writable} from "svelte/store";
++
++export let photoStore = writable([]);
++
++export async function fetchPhotos() {
++    const rawResponse = await fetch('/api/photos', {
++       method: 'GET',
++       headers: {
++           'Accept': 'application/json',
++           'Content-Type': 'application/json'
++       }
++    });
++
++    let content = await rawResponse.json();
++    photoStore.set(content.photos)
++}
+
+```
+</details>
+
+<details>
+  <summary>/src/routes/+layout.js</summary>
+
+```diff
+-export function load({ params }) {
+-    return {
+-        photos: [
+-            {
+-                id: 'IMGP4117.jpg',
+-                title: 'Valmue'
+-            },
+-            {
+-                id: 'background1.jpg',
+-                title: 'Tyttebær'
+-            },
+-            {
+-                id: 'IMGP4642.jpg',
+-                title: 'Tyttebær 2'
+-            },
+-            {
+-                id: 'IMGP6801.jpg',
+-                title: 'Sommerfugl'
+-            },
+-            {
+-                id: 'IMGP3329.jpg',
+-                title: 'Hvitveis'
+-            }
+-        ],
+-        albums: [
+-            {
+-                id: 'makro',
+-                image: 'IMGP4117.jpg',
+-                caption: 'makro',
+-                images: ['IMGP4117.jpg', 'background1.jpg', 'IMGP4642.jpg', 'IMGP6801.jpg', 'IMGP3329.jpg']
+-            },
+-            {
+-                id: 'norge2020',
+-                image: 'background1.jpg',
+-                caption: 'Norge 2020',
+-                images: ['IMGP4117.jpg', 'background1.jpg']
+-            }
+-        ]
+-    };
++import {browser} from "$app/environment";
++import {get} from "svelte/store";
++import {albumStore, fetchAlbums} from "$lib/stores/albumStore.js";
++import {fetchPhotos, photoStore} from "$lib/stores/photoStore.js";
++
++export async function load({ params }) {
++    if (browser) {
++        await fetchAlbums();
++        await fetchPhotos();
++
++        return {
++            photos: get(photoStore),
++            albums: get(albumStore)
++        };
++    }
+ }
+```
+</details>
+
+<details>
+  <summary>/src/routes/+page.svelte</summary>
+
+```diff
+     import '../app.css';
+     import Slideshow from "$lib/components/Slideshow.svelte";
+     import PhotoAlbumIndex from "$lib/components/PhotoAlbumIndex.svelte";
++    import {browser} from "$app/environment";
+ 
+     export let data;
++
++    console.log('******');
++    console.log(data);
+ </script>
+ 
+-<Slideshow photos={data.photos}></Slideshow>
+-<PhotoAlbumIndex albums={data.albums}></PhotoAlbumIndex>
++{#if browser}
++    <Slideshow photos={data.photos}></Slideshow>
++    <PhotoAlbumIndex albums={data.albums}></PhotoAlbumIndex>
++{/if}
+ 
+ <style>
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/+layout.js</summary>
+
+```diff
++import {browser} from "$app/environment";
++
+ export async function load({parent, params}) {
+-    const data = await parent();
+-    let album = await data.albums.find((album) => album.id === params.albumid);
++    if (browser) {
++        const data = await parent();
++        let album = await data.albums.find((album) => album.id === params.albumid);
+ 
+-    return { album: album};
++        return {album: album};
++    }
+ }
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/+layout.svelte</summary>
+
+```diff
+     import {page} from "$app/stores";
+     import {onMount} from "svelte";
+     import {goto} from "$app/navigation";
++    import {browser} from "$app/environment";
+ 
+     onMount(() => {
+         if ($page.params.albumid && data.album.image && !$page.params.photoid) {
+@@ -19,17 +20,19 @@
+ 
+ <slot></slot>
+ 
+-<div class="photo-albums-area in-album">
+-    <div class="grid-container">
+-        {#each data.album.images as image}
+-            <a href="/album/{data.album.id}/photo/{image}">
+-                <div class="grid-item">
+-                    <img class="grid-item-photo" src="/images/{image}">
+-                </div>
+-            </a>
+-        {/each}
++{#if browser}
++    <div class="photo-albums-area in-album">
++        <div class="grid-container">
++            {#each data.album.images as image}
++                <a href="/album/{data.album.id}/photo/{image}">
++                    <div class="grid-item">
++                        <img class="grid-item-photo" src="/images/{image}">
++                    </div>
++                </a>
++            {/each}
++        </div>
+     </div>
+-</div>
++{/if}
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/photo/[photoid]/+page.js</summary>
+
+```diff
+-export async function load({parent, params}) {
+-    const data = await parent();
+-    let album = await data.albums.find((album) => album.id === params.albumid);
+-    let photo = await data.photos.find((photo) => photo.id = params.photoid);
++import {browser} from "$app/environment";
+ 
++export async function load({parent, params}) {
++    if (browser) {
++        const data = await parent();
++        let album = await data.albums.find((album) => album.id === params.albumid);
++        let photo = await data.photos.find((photo) => photo.id === params.photoid);
+ 
+-    return { album: album, photo: photo};
++        return {album: album, photo: photo};
++    }
+ }
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/photo/[photoid]/+page.svelte</summary>
+
+```diff
+ <script>
+     import ExifDetails from "$lib/components/ExifDetails.svelte";
++    import {browser} from "$app/environment";
+ 
+     export let data;
+ </script>
+ 
+-<div class="full-image">
+-    <img id="photoAlbumImage" src="/images/{data.photo.id}" />
+-</div>
++{#if browser}
++    <div class="full-image">
++        <img id="photoAlbumImage" src="/images/{data.photo.id}" />
++    </div>
+ 
+-<ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
++    <ExifDetails photoElementId="photoAlbumImage" photo={data.photo}></ExifDetails>
++{/if}
+ 
+ <style>
+     .full-image { }
+</style>
+```
+</details>
+
+</td>
+</tr>
+</table>
