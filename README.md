@@ -1830,3 +1830,64 @@ Changes made in commit:
 </td>
 </tr>
 </table>
+
+
+
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 11: Fixing the bug</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part11_slides.html" target="_blank">
+        <img alt="Slide part 11" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part11_cover.jpg">
+    </a>
+</td>
+<td>
+
+### Topics:
+
+- Fixing the bug in the load() function
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+Changes made in commit: [a11de01](https://github.com/joachimhs/svelteAlbumJZ23/commit/a11de01bb995a5368fbd74c14689b5dff1a47d63)
+
+<details>
+  <summary>src/routes/album/[albumid]/+layout.js</summary>
+
+```diff
+export async function load({parent, params}) {
+     const data = await parent();
+-     let album = await data.albums.find((album) => album.caption === params.albumid);
++     let album = await data.albums.find((album) => album.id === params.albumid);
+
+     return { album: album};
+ }
+```
+</details>
+
+<details>
+  <summary>src/routes/album/[albumid]/photo/[photoid]/+page.js</summary>
+
+```diff
+export async function load({parent, params}) {
+     const data = await parent();
+     let album = await data.albums.find((album) => album.caption === params.albumid);
+     let album = await data.albums.find((album) => album.id === params.albumid);
+     let photo = await data.photos.find((photo) => photo.id = params.photoid);
+
+
+     return { album: album, photo: photo};
+ }
+```
+</details>
+
+</td>
+</tr>
+</table>
