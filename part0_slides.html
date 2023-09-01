@@ -189,11 +189,90 @@
 							- Hydration ensures SPA-features users expects from modern webapps
 
 						---
+						## No more ugly routing (Angular)
+
+						```angular [3-5, 7-12, 15-16]
+						import { NgModule } from '@angular/core';
+						import { RouterModule, Routes } from '@angular/router';
+						import { HeroesComponent} from "./heroes/heroes.component";
+						import { DashboardComponent} from "./dashboard/dashboard.component";
+						import { HeroDetailComponent} from "./hero-detail/hero-detail.component";
+
+						const routes: Routes = [
+						  {path: 'heroes', component: HeroesComponent},
+						  {path: 'dashboard', component: DashboardComponent},
+						  {path: 'detail/:id', component: HeroDetailComponent},
+						  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+						];
+
+						@NgModule({
+						  imports: [RouterModule.forRoot(routes)],
+						  exports: [RouterModule]
+						})
+						export class AppRoutingModule { }
+						```
+						---
+						## No more ugly routing (Ember.js)
+
+						```ember [1-2, 4-7, 9-21]
+						import EmberRouter from '@ember/routing/router';
+						import config from './config/environment';
+
+						export default class Router extends EmberRouter {
+						  location = config.locationType;
+						  rootURL = config.rootURL;
+						}
+
+						Router.map(function() {
+						  this.route('ideer');
+						  this.route('page', { path: '/page/:page_id' });
+						  this.route('cms', function() {
+							this.route('page');
+							this.route('pages', function() {
+							  this.route('page', {path: '/:page_id'});
+							});
+						  });
+						  this.route('blogg', function() {
+							this.route('post', {path: '/:blogg_id'});
+						  });
+						});
+						```
+						---
+						## No more ugly routing (react-router)
+
+						```react []
+						import ReactDOM from "react-dom/client";
+						import { BrowserRouter, Routes, Route } from "react-router-dom";
+						import Layout from "./pages/Layout";
+						import Home from "./pages/Home";
+						import Blogs from "./pages/Blogs";
+						import Contact from "./pages/Contact";
+						import NoPage from "./pages/NoPage";
+
+						export default function App() {
+						  return (
+							<BrowserRouter>
+							  <Routes>
+								<Route path="/" element={<Layout />}>
+								  <Route index element={<Home />} />
+								  <Route path="blogs" element={<Blogs />} />
+								  <Route path="contact" element={<Contact />} />
+								  <Route path="*" element={<NoPage />} />
+								</Route>
+							  </Routes>
+							</BrowserRouter>
+						  );
+						}
+
+						const root = ReactDOM.createRoot(document.getElementById('root'));
+						root.render(<App />);
+						```
+						---
 						## SvelteKit - Routing
 
-						- SvelteKit includes a built-in directory-based router that ensures:
-							- URLs are human readable
-							- Consistent directory-structure
+						- SvelteKit includes a built-in ***directory***-based router that ensures:
+							- URLs are ***human readable***
+							- Keeps your directory-structure ***consistent*** with the URL-patterns (!!)
 							- Splits your code into essentialy "page-based components" and site-wide components
 
 						---
@@ -201,6 +280,14 @@
 
 						<img src="images/part1_svelte_dirstructure.png" style="height: 700px" />
 
+						---
+						## SvelteKit - Routing - recap
+
+						- No magic file responsible for keeping track of the routes
+							- Extremely simple to find the page-component by looking simply at the URL
+						- Every route rendered on the page has its own "page-based component"
+						- +page.svelte contains parts only relevant to this URL
+						- +layout.svelte contains parts relevant to this URL and children
 						---
 						## SvelteKit - Adaptability
 
