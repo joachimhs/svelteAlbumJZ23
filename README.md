@@ -2344,3 +2344,232 @@ Changes made in commit: [3e253d1](https://github.com/joachimhs/svelteAlbumJZ23/c
 </td>
 </tr>
 </table>
+
+
+
+
+<table>
+<tr>
+<th colspan="2">
+<h2>Step 14: Editing photos</h2>
+</th>
+</tr>
+<tr>
+  <td>
+    <a href="https://joachimhs.github.io/svelteAlbumJZ23/part14_slides.html" target="_blank">
+        <img alt="Slide part 14" width="400" src="https://joachimhs.github.io/svelteAlbumJZ23/images/part14_cover.jpg">
+    </a>
+</td>
+<td>
+
+### Topics:
+
+- Creating a edit route /albums/[albumid]/photo/[photoid]/edit
+- Adding a save-function in the store
+- Using the store in the edit route
+- Using form with bind:value and on:submit and preventdefault
+- Adding save-indicator to the form
+
+</td>
+</tr>
+<tr>
+<td colspan="2">
+
+Changes made in commit: [67997ec](https://github.com/joachimhs/svelteAlbumJZ23/commit/67997ec8bd2ff265a8da8cb0a271e6f8137dc7b8)
+
+<details>
+  <summary>/src/lib/stores/photoStore.js</summary>
+
+```diff
++
++export async function storePhoto(photo) {
++    const rawResponse = await fetch('/api/photos/' + photo.id, {
++        method: 'PUT',
++        body: JSON.stringify(photo),
++        headers: {
++            'Accept': 'application/json',
++            'Content-Type': 'application/json'
++        }
++    });
++
++    let content = await rawResponse.json();
++
++    photoStore.set(content.photos);
+ }
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/photo/[photoid]/+page.svelte</summary>
+
+```diff
+@@ -6,6 +6,10 @@
+ </script>
+ 
+ {#if browser}
++    <a href="/album/{data.album.id}/photo/{data.photo.id}/edit">
++        <div class="edit-button">Rediger</div>
++    </a>
++
+     <div class="full-image">
+         <img id="photoAlbumImage" src="/images/{data.photo.id}" />
+     </div>
+@@ -27,4 +31,17 @@
+         object-fit: contain;
+         transition: all 0.5s;
+     }
++
++    .edit-button {
++        position: absolute;
++        top: 14px;
++        left: 120px;
++        background: #000;
++        color: #fff;
++        padding: 9px;
++        padding-left: 15px;
++        padding-right: 15px;
++        border-radius: 10px;
++        border: 2px solid #fff;
++    }
+ </style>
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/photo/[photoid]/edit/+page.js</summary>
+
+```diff
++import {browser} from "$app/environment";
++
++export async function load({parent, params}) {
++    if (browser) {
++        const data = await parent();
++        let photo = await data.photos.find((photo) => photo.id === params.photoid);
++
++        return {photo: photo};
++    }
++}
+```
+</details>
+
+<details>
+  <summary>/src/routes/album/[albumid]/photo/[photoid]/edit/+page.svelte</summary>
+
+```diff
++<script>
++    import {storePhoto} from "$lib/stores/photoStore.js";
++    import {browser} from "$app/environment";
++    import { enhance } from '$app/forms';
++
++    export let data;
++    let inFlight = false;
++
++    async function savePhoto() {
++        inFlight = true;
++        await storePhoto(data.photo);
++        inFlight = false;
++    }
++</script>
++
++{#if browser}
++    <div class="edit-area">
++        <div class="edit-image">
++            <img id="photoAlbumImage" src="/images/{data.photo.id}" />
++        </div>
++
++
++        <form class="edit-form" on:submit|preventDefault={savePhoto}>
++            {#if inFlight}
++                <div>Lagrer...</div>
++            {:else}
++                <div>ID: </div>
++                <input type="text" disabled bind:value={data.photo.id} />
++                <div>Title: </div>
++                <input type="text" bind:value={data.photo.title} />
++                <div class="form-buttons">
++                    <button on:click={savePhoto}>Lagre</button>
++                </div>
++            {/if}
++        </form>
++
++    </div>
++{/if}
++
++<style>
++    .edit-area {
++        display: grid;
++        grid-template-columns: 1fr 1fr;
++        margin-bottom: 50px;
++        margin-top: 100px;
++    }
++
++    .edit-form {
++        display: grid;
++        grid-template-columns: 100px 1fr;
++        grid-auto-rows: 45px;
++        margin-left: 25px;
++    }
++
++    .edit-form .form-buttons {
++        grid-column: 2;
++        text-align: center;
++        padding-top: 5px;
++    }
++
++    .form-buttons button {
++        border: 1px solid #4771b9;
++        background-color: #4771b9;
++        color: #fff;
++        padding: 0px 35px;
++        text-align: center;
++        height: 35px;
++        max-height: 40px;
++        line-height: 35px;
++        display: inline-block;
++        cursor: pointer;
++    }
++
++    .edit-image {
++        width: 100%;
++        text-align: center;
++    }
++
++    .edit-image img {
++        max-width: 100%;
++        object-fit: contain;
++        transition: all 0.5s;
++    }
++</style>
+```
+</details>
+
+<details>
+  <summary>/src/routes/api/photos/[photoid]/+server.js</summary>
+
+```diff
++import {json} from "@sveltejs/kit";
++import {getPhotos} from "$lib/data/appData.js";
++
++export async function PUT({ params, request, cookies }) {
++    let done = await request.json();
++
++    let oldPhotos = await getPhotos();
++
++    //Find photo and update title in one-stop
++    await oldPhotos.find(photo => (photo.id === done.id) ? photo.title = done.title : null);
++
++    const responseJson = json( {
++        photos: oldPhotos
++    });
++
++    //Adding in a fake delay to see progress
++    await new Promise(resolve => setTimeout(resolve, 1000));
++
++    return responseJson;
++}
+```
+</details>
+
+</td>
+</tr>
+</table>
