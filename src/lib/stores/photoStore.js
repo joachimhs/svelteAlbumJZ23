@@ -14,3 +14,18 @@ export async function fetchPhotos() {
     let content = await rawResponse.json();
     photoStore.set(content.photos)
 }
+
+export async function storePhoto(photo) {
+    const rawResponse = await fetch('/api/photos/' + photo.id, {
+        method: 'PUT',
+        body: JSON.stringify(photo),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    let content = await rawResponse.json();
+
+    photoStore.set(content.photos);
+}
